@@ -14,6 +14,9 @@ public class Barrier {
                     i++;
                     synchronized (this) {
                         int j = 0;
+                        while (j < 10000000) {
+                            j++;
+                        }
                     }
                 }
                 System.out.println("Done !!");
