@@ -12,11 +12,8 @@ public class Barrier {
                 int i = 0;
                 while (!done) {
                     i++;
-                    synchronized (this) {
-                        int j = 0;
-                    }
                 }
-                System.out.println("Done !!");
+                System.out.println("Done !!- "+i);
             }
         }).start();
 
