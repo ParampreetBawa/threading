@@ -2,18 +2,17 @@
  * Created by parampreet on 11/24/15.
  */
 class Example {
-    public static void main(String[] args) {
 
-    }
-
+    final Object lockA = new Object();
+    final Object lockB = new Object();
     void methodA() {
-        synchronized (this) {
+        synchronized (lockA) {
 
         }
     }
 
     void methodB() {
-        synchronized (this) {
+        synchronized (lockB) {
 
         }
 
