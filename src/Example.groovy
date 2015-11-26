@@ -6,11 +6,16 @@ class Example {
 
     }
 
-    synchronized void methodA() {
+    void methodA() {
+        synchronized (this) {
 
+        }
     }
 
-    synchronized void methodB() {
+    void methodB() {
+        synchronized (this) {
+
+        }
 
     }
 
