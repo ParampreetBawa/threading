@@ -14,8 +14,10 @@ public class Barrier {
                     i++;
                     synchronized (this) {
                         int j = 0;
-                        while (j < 10000000) {
-                            j++;
+                        try {
+                            Thread.sleep(500);
+                        }catch (InterruptedException e) {
+                            e.printStackTrace();
                         }
                     }
                 }
