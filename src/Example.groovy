@@ -6,7 +6,11 @@ class Example {
 
     }
 
-    synchronized void method() {
+    synchronized void methodA() {
+
+    }
+
+    synchronized void methodB() {
 
     }
 
