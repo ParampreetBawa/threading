@@ -1,3 +1,4 @@
+import java.util.concurrent.TimeUnit
 import java.util.concurrent.locks.ReentrantLock
 
 /**
@@ -6,8 +7,29 @@ import java.util.concurrent.locks.ReentrantLock
 class Example {
 
     final ReentrantLock lock = new ReentrantLock()
-    void methodA() {
 
+    void methodA() {
+        try {
+            if (lock.tryLock(5, TimeUnit.SECONDS)) {
+                //read only
+            }
+        } finally {
+            if (lock.heldByCurrentThread) {
+                lock.unlock()
+            }
+        }
+    }
+
+    void methodB() {
+        try {
+            if (lock.tryLock(5, TimeUnit.SECONDS)) {
+                //write only
+            }
+        } finally {
+            if (lock.heldByCurrentThread) {
+                lock.unlock()
+            }
+        }
     }
 
 }
