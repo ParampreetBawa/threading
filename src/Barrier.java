@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class Barrier {
     static boolean done = false;
+
     public static void main(String[] args) throws InterruptedException {
         new Thread(new Runnable() {
             @Override
@@ -12,11 +13,9 @@ public class Barrier {
                 int i = 0;
                 while (!done) {
                     i++;
-                    synchronized (this) {
-                        int j = 0;
-                        while (j < 10000000) {
-                            j++;
-                        }
+                    int j = 0;
+                    while (j < 10000000) {
+                        j++;
                     }
                 }
                 System.out.println("Done !!");
