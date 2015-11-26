@@ -12,11 +12,11 @@ public class Barrier {
             public void run() {
                 int i = 0;
                 while (!done) {
-                    i++;
-                    int j = 0;
-                    System.out.print("blah!!");
+                    synchronized (this) {
+                        i++;
+                    }
                 }
-                System.out.println("Done !!");
+                System.out.println("Done !!" + i);
             }
         }).start();
 
