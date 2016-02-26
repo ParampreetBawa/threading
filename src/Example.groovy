@@ -1,34 +1,31 @@
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.locks.ReentrantLock
+import java.util.concurrent.locks.ReentrantReadWriteLock
 
 /**
  * Created by parampreet on 11/24/15.
  */
 class Example {
 
-    final ReentrantLock lock = new ReentrantLock()
+    final ReentrantReadWriteLock lock = new ReentrantLock()
 
     void methodA() {
         try {
-            if (lock.tryLock(5, TimeUnit.SECONDS)) {
+            if (lock.readLock().tryLock(5, TimeUnit.SECONDS)) {
                 //read only
             }
         } finally {
-            if (lock.heldByCurrentThread) {
-                lock.unlock()
-            }
+            lock.readLock().unlock();
         }
     }
 
     void methodB() {
         try {
-            if (lock.tryLock(5, TimeUnit.SECONDS)) {
+            if (lock.writeLock().tryLock(5, TimeUnit.SECONDS)) {
                 //write only
             }
         } finally {
-            if (lock.heldByCurrentThread) {
-                lock.unlock()
-            }
+            lock.writeLock().unlock()
         }
     }
 
