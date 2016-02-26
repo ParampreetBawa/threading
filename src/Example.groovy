@@ -8,32 +8,38 @@ import java.util.concurrent.Future
  */
 class Example {
 
-    ExecutorService service = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors())
+    static ExecutorService service = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors())
 
-    void methodA() {
-        service.execute(new Runnable() {
+    static void methodA() {
+        Future<Long> future1 = service.submit(new Callable() {
             @Override
-            void run() {
-                //do some work like process files
+            Long call() throws Exception {
+                sleep(5000)
+                return 50l;
             }
-        })
+        });
 
-        service.submit(new Runnable() {
+        Future<Long> future2 = service.submit(new Callable() {
             @Override
-            void run() {
-                //do some work like process files
+            Long call() throws Exception {
+                sleep(5000)
+                return 500l;
             }
         });
 
 
+        wrapAroundTickClock {future1.get() + future2.get()}
 
-        Future future = service.submit(new Callable() {
-            @Override
-            Object call() throws Exception {
-                return [:]// return some processed output
-            }
-        });
+        service.shutdown()
+    }
 
-        future.get();
+    static void wrapAroundTickClock(Closure closure) {
+        long startTime = System.currentTimeMillis();
+        closure()
+        println("Total Time took - "+ ((System.currentTimeMillis() - startTime) * 1e-3) + " Secs")
+    }
+
+    public static void main(String... args) {
+        methodA()
     }
 }
