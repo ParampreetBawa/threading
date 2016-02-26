@@ -13,14 +13,13 @@ public class Barrier {
                 int i = 0;
                 while (!done) {
                     i++;
-                    int j = 0;
                     try {
                         Thread.sleep(500);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
-                System.out.println("Done !!");
+                System.out.println("Done !!" + i);
             }
         }).start();
 
