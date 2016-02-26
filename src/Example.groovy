@@ -1,32 +1,39 @@
-import java.util.concurrent.TimeUnit
-import java.util.concurrent.locks.ReentrantLock
-import java.util.concurrent.locks.ReentrantReadWriteLock
+import java.util.concurrent.Callable
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
+import java.util.concurrent.Future
 
 /**
  * Created by parampreet on 11/24/15.
  */
 class Example {
 
-    final ReentrantReadWriteLock lock = new ReentrantLock()
+    ExecutorService service = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors())
 
     void methodA() {
-        try {
-            if (lock.readLock().tryLock(5, TimeUnit.SECONDS)) {
-                //read only
+        service.execute(new Runnable() {
+            @Override
+            void run() {
+                //do some work like process files
             }
-        } finally {
-            lock.readLock().unlock();
-        }
-    }
+        })
 
-    void methodB() {
-        try {
-            if (lock.writeLock().tryLock(5, TimeUnit.SECONDS)) {
-                //write only
+        service.submit(new Runnable() {
+            @Override
+            void run() {
+                //do some work like process files
             }
-        } finally {
-            lock.writeLock().unlock()
-        }
-    }
+        });
 
+
+
+        Future future = service.submit(new Callable() {
+            @Override
+            Object call() throws Exception {
+                return [:]// return some processed output
+            }
+        });
+
+        future.get();
+    }
 }
