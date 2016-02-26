@@ -5,32 +5,30 @@ import java.util.concurrent.locks.ReentrantLock
  */
 class Example {
     final Object lockA = new Object()
-    final ReentrantLock lockB = new ReentrantLock()
+    final Object lockB = new Object()
+    final ReentrantLock lockC = new ReentrantLock()
+    final ReentrantLock lockD = new ReentrantLock()
     void methodA() {
         synchronized (lockA) {
-            //Do something
+            //Do something with 1 lock
+            synchronized (lockB) {
+                //do with 2 locks
+            }
         }
     }
 
     void methodB() {
         try {
-            lockB.lock()
-            //Do something
-        }finally {
-            lockB.unlock()
-        }
-    }
+            lockC.lock()
 
-    void methodD() {
-        try {
-            lockB.tryLock()
-            //Do something
-        }finally {
-            if(lockB.isHeldByCurrentThread()) {
-                lockB.unlock()
-            }
-        }
+            lockD.lock()
 
+            lockC.unlock()
+
+            lockD.unlock()
+        }finally {
+            //un lock if locked
+        }
     }
 
 }
