@@ -6,8 +6,8 @@ import java.util.concurrent.locks.ReentrantLock
 class Example {
     final Object lockA = new Object()
     final Object lockB = new Object()
-    final ReentrantLock lockC = new ReentrantLock()
-    final ReentrantLock lockD = new ReentrantLock()
+
+
     void methodA() {
         synchronized (lockA) {
             //Do something with 1 lock
@@ -16,6 +16,10 @@ class Example {
             }
         }
     }
+
+
+    final ReentrantLock lockC = new ReentrantLock()
+    final ReentrantLock lockD = new ReentrantLock()
 
     void methodB() {
         try {
