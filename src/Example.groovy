@@ -23,8 +23,9 @@ class Example {
 
     void methodD() {
         try {
-            lockB.tryLock()
-            //Do something
+            if(lockB.tryLock()) {
+                //Do something
+            }
         }finally {
             if(lockB.isHeldByCurrentThread()) {
                 lockB.unlock()
