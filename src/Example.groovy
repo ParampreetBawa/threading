@@ -1,32 +1,46 @@
-import java.util.concurrent.TimeUnit
-import java.util.concurrent.locks.ReentrantLock
-import java.util.concurrent.locks.ReentrantReadWriteLock
-
 /**
  * Created by parampreet on 11/24/15.
  */
 class Example {
-
-    final ReentrantReadWriteLock lock = new ReentrantLock()
-
-    void methodA() {
-        try {
-            if (lock.readLock().tryLock(5, TimeUnit.SECONDS)) {
-                //read only
+    public static void main(String[] args) {
+        Service s = new Service()
+        s.submit(new Runnable() {
+            @Override
+            void run() {
+                println("do work")
             }
-        } finally {
-            lock.readLock().unlock();
-        }
+        })
     }
 
-    void methodB() {
-        try {
-            if (lock.writeLock().tryLock(5, TimeUnit.SECONDS)) {
-                //write only
+}
+
+class Service {
+    final Object lock = new Object()
+    List<Runnable> runnables = []
+
+    Service() {
+        new Thread(new Runnable() {
+            @Override
+            void run() {
+                while (true) {
+                    if (runnables.size() > 0) {
+                        Runnable runnable = runnables.remove(0)
+                        runnable.run()
+                    } else {
+                        synchronized (lock) {
+                            lock.wait()
+                        }
+                    }
+                }
             }
-        } finally {
-            lock.writeLock().unlock()
-        }
+        }, "worker").start()
+
     }
 
+    void submit(Runnable r) {
+        runnables.add(r)
+        synchronized (lock) {
+            lock.notifyAll()
+        }
+    }
 }
