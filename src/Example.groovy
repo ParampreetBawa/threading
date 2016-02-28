@@ -5,13 +5,14 @@ import java.util.concurrent.locks.ReentrantLock
  */
 class Example {
     final Object lockA = new Object()
-    final ReentrantLock lockB = new ReentrantLock()
+
     void methodA() {
         synchronized (lockA) {
             //Do something
         }
     }
 
+    final ReentrantLock lockB = new ReentrantLock()
     void methodB() {
         try {
             lockB.lock()
