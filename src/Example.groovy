@@ -4,12 +4,19 @@
 class Example {
     public static void main(String[] args) {
         Service s = new Service()
-        s.submit(new Runnable() {
-            @Override
-            void run() {
-                println("do work")
-            }
-        })
+
+
+        Scanner scanner = new Scanner(System.in)
+        5.times {
+            final String task = scanner.nextLine()
+            s.submit(new Runnable() {
+                @Override
+                void run() {
+                    sleep(5000)
+                    println(task)
+                }
+            })
+        }
     }
 
 }
