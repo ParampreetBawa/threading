@@ -18,7 +18,7 @@ class Example {
             }
         })
 
-        service.submit(new Runnable() {
+        Future _future = service.submit(new Runnable() {
             @Override
             void run() {
                 //do some work like process files
