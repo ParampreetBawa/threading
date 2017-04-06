@@ -14,7 +14,7 @@ public class Barrier {
                 while (!done) {
                     i++;
                     int j = 0;
-                    System.out.print("blah!!");
+                    System.out.print("blah\n");
                 }
                 System.out.println("Done !!");
             }
