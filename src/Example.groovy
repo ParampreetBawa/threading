@@ -12,8 +12,8 @@ class Example {
             s.submit(new Runnable() {
                 @Override
                 void run() {
-                    sleep(5000)
-                    println(task)
+                    sleep(1000)
+                    new URL("https://www.google.com").text
                 }
             })
         }
