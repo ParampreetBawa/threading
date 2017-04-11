@@ -16,18 +16,32 @@ class Example {
 
         Callable r1 = new Callable() {
             public Object call() {
-                new URL("https://facebook.com").text
+                sleep(100)
+            }
+        }
+
+        Callable r2 = new Callable() {
+            public Object call() {
+                sleep(100)
             }
         }
 
         long t1 = System.currentTimeMillis();
-        Future future = service.submit(r1);
+
+        Future f1 = service.submit(r1);
         try {
-            def text = future.get(1, TimeUnit.MINUTES)
-            saveToFile(text)
+            f1.get(110, TimeUnit.MILLISECONDS)
         }catch (TimeoutException e) {
-            System.out.println("Exception")
+            //ok
         }
+
+        Future f2 = service.submit(r2)
+        try {
+            f2.get(110, TimeUnit.MILLISECONDS)
+        }catch (TimeoutException e) {
+            //ok
+        }
+
         System.out.println(System.currentTimeMillis() - t1)
 
         service.shutdown()
