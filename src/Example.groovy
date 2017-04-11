@@ -1,4 +1,5 @@
 import java.util.concurrent.Callable
+import java.util.concurrent.CancellationException
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.Future
@@ -16,40 +17,47 @@ class Example {
 
         Callable r1 = new Callable() {
             public Object call() {
-                sleep(100)
+                sleep(1000)
+                "First"
             }
         }
 
         Callable r2 = new Callable() {
             public Object call() {
-                sleep(100)
+                sleep(1000)
+                "Second"
             }
         }
 
         long t1 = System.currentTimeMillis();
 
-        Future f1 = service.submit(r1);
-        try {
-            f1.get(110, TimeUnit.MILLISECONDS)
-        }catch (TimeoutException e) {
-            //ok
-        }
+//        Future f1 = service.submit(r1);
+//        try {
+//            f1.get(110, TimeUnit.MILLISECONDS)
+//        }catch (TimeoutException e) {
+//            //ok
+//        }
+//
+//        Future f2 = service.submit(r2)
+//        try {
+//            f2.get(110, TimeUnit.MILLISECONDS)
+//        }catch (TimeoutException e) {
+//            //ok
+//        }
 
-        Future f2 = service.submit(r2)
-        try {
-            f2.get(110, TimeUnit.MILLISECONDS)
-        }catch (TimeoutException e) {
-            //ok
+
+        def futures = service.invokeAll([r1, r2], 100, TimeUnit.MILLISECONDS)
+
+        futures.each {
+            if(it.isCancelled()) {
+                System.out.println("Cancelled")
+            }else {
+                System.out.println("Result " + it.get())
+            }
         }
 
         System.out.println(System.currentTimeMillis() - t1)
 
         service.shutdown()
-    }
-
-    static void saveToFile(text) {
-        def file = File.createTempFile("fab", ".html")
-        file.text = text
-        System.out.println(file.getAbsolutePath())
     }
 }
