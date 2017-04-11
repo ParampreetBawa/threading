@@ -7,7 +7,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock
  */
 class Example {
 
-    final ReentrantReadWriteLock lock = new ReentrantLock()
+    final ReentrantReadWriteLock lock = new ReentrantReadWriteLock()
 
     void methodA() {
         try {
