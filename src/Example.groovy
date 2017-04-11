@@ -16,13 +16,13 @@ class Example {
 
         Callable r1 = new Callable() {
             public Object call() {
-                sleep(100)
+                sleep(1000)
             }
         }
 
         Callable r2 = new Callable() {
             public Object call() {
-                sleep(100)
+                sleep(1000)
             }
         }
 
@@ -30,14 +30,14 @@ class Example {
 
         Future f1 = service.submit(r1);
         try {
-            f1.get(110, TimeUnit.MILLISECONDS)
+            f1.get(100, TimeUnit.MILLISECONDS)
         }catch (TimeoutException e) {
             //ok
         }
 
         Future f2 = service.submit(r2)
         try {
-            f2.get(110, TimeUnit.MILLISECONDS)
+            f2.get(100, TimeUnit.MILLISECONDS)
         }catch (TimeoutException e) {
             //ok
         }
