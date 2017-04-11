@@ -1,39 +1,25 @@
-import java.util.concurrent.Callable
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
-import java.util.concurrent.Future
 
 /**
  * Created by parampreet on 11/24/15.
  */
 class Example {
 
-    ExecutorService service = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors())
+    public static void main(String[] args) {
 
-    void methodA() {
-        service.execute(new Runnable() {
-            @Override
-            void run() {
-                //do some work like process files
+        ExecutorService service = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors())
+
+        Runnable r1 = new Runnable() {
+            public void run() {
+                sleep(100);
             }
-        })
+        }
 
-        Future _future = service.submit(new Runnable() {
-            @Override
-            void run() {
-                //do some work like process files
-            }
-        });
+        long t1 = System.currentTimeMillis();
+        service.execute(r1);
+        System.out.println(System.currentTimeMillis() - t1)
 
-
-
-        Future future = service.submit(new Callable() {
-            @Override
-            Object call() throws Exception {
-                return [:]// return some processed output
-            }
-        });
-
-        future.get();
+        service.shutdown()
     }
 }
